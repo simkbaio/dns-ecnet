@@ -1,0 +1,45 @@
+.navbar-brand {
+	background: #27AE60;
+	height: 100%;
+	text-shadow: 1px 2px #000;
+	margin-right: 30px;
+}
+
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
+	color: #fff;
+	background-color: #2ECC71;
+}
+
+.navbar-inverse .navbar-nav > .dropdown > a .caret {
+	border-top-color: #fff;
+	border-bottom-color: #fff;
+}
+.jumbotron {
+	margin-top: 40px;
+}
+
+#jumbotron-slogan span {
+	font-size: 30px;
+}
+
+footer {
+    margin-top: 120px;
+    height: 80px;
+    padding-top: 30px;
+}
+#content {
+    margin-top: 70px;
+    min-height: 350px;
+}
+
+.page-title {
+    font-size: 45px;
+}
+.page-title a {
+    height: 25px;
+    padding: 3px;
+}
+.navbar-collapse .navbar-nav.navbar-left:first-child > li:first-child a {
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+}
