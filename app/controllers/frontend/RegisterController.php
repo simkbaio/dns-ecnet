@@ -31,6 +31,15 @@ class RegisterController extends FrontendController {
 
 		//Tạo tài khoản customer
 		$user = \User::createUser($input);
+		try{
+			$free_product = \Product::findOrFail(1);
+			$user->setProduct($free_product);
+		}catch( \Exception $e){
+			return \Redirect::route('home');
+		}
+
+		// Thêm gói free cho tài khoản
+
 		\Sentry::login($user);
 		// nội dung thông báo
 		$notice_title = 'Bạn đã đăng kí thành công!';

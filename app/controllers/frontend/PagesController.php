@@ -11,6 +11,10 @@ use \Sentry;
 
 
 class PagesController extends FrontendController {
+	function __construct() {
+
+	}
+
 	public function home(){
 		if(\Sentry::check()){
 			return \Redirect::route('customer_dashbroad');

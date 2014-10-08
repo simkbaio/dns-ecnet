@@ -20,17 +20,19 @@ class Customer extends \User {
 		if($current_product){
 			$current_product->update([
 				'product_id'=>$product->id,
-				'max_domains'=>$product->domains_amounts,
-				'begin_date'=>\Carbon\Carbon::now()->toDateTimeString(),
-				'expired_date'=>\Carbon\Carbon::now()->addDays($product->duration),
+				'user_id'=>Sentry::getUser()->id,
+				'max_domains'=>$product->domains_amount,
+				'started_at'=>\Carbon\Carbon::now()->toDateTimeString(),
+				'expired_at'=>\Carbon\Carbon::now()->addDays($product->duration),
 			]);
 		}else{
 			//Create new Product package
 			$current_product = ProductUser::create([
 				'product_id'=>$product->id,
-				'max_domains'=>$product->domains_amounts,
-				'begin_date'=>\Carbon\Carbon::now()->toDateTimeString(),
-				'expired_date'=>\Carbon\Carbon::now()->addDays($product->duration),
+				'user_id'=>Sentry::getUser()->id,
+				'max_domains'=>$product->domains_amount,
+				'started_at'=>\Carbon\Carbon::now()->toDateTimeString(),
+				'expired_at'=>\Carbon\Carbon::now()->addDays($product->duration),
 			]);
 		}
 		return $current_product;

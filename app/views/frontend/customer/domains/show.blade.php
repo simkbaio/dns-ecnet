@@ -1,5 +1,7 @@
 @extends('frontend.customer.layouts.master')
 @section('footer')
+<script src="/admin_assets/plugins/bootbox/bootbox.min.js"></script>
+
 <script>
 var parent_tr;
 	jQuery(document).ready(function($) {
@@ -14,21 +16,39 @@ var parent_tr;
 
 		});
 	});
+    jQuery(document).ready(function($) {
+        $(".delete-button").click(function() {
+            var delete_button = $(this);
+            bootbox.confirm("Bạn chắc chắn muốn xóa?", function(result) {
+                if(result){
+                    window.location = delete_button.attr('data-src');
+                }
+            });
+        });
+    });
 </script>
 
 @stop
 
 @section('content')
 <div class="container" id="content">
+    <div class="col-md-12">
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home"></i>
+Trang quản lý</a></li>
+            <li><a href="{{URL::route('customer.domains')}}">Quản lý tên tên miền</a></li>
+            <li class="current">{{$domain->name}}</li>
+        </ul>
+    </div>
 	<h3 class="page-title">
 		Thông tin tên miền: {{$domain->name}}
 	</h3>
-	<div class="col-md-12">
-	    {{bootstrap_message()}}
-	</div>
+
 	<div class="col-md-12">
 	<h4>Các bản ghi</h4>
-		<table class="table table-hover table-striped">
+		@include('flash::message')
+	    <div class="table-responsive">
+            <table class="table table-hover table-striped">
 			<thead>
 				<tr>
 					<th>Tên</th>
@@ -45,7 +65,7 @@ var parent_tr;
 			    {{Form::open(['route'=>'customer.records.store'])}}
 			    {{Form::hidden('domain_id',$domain->id)}}
 			        <td>
-			            {{Form::text('name','',[])}}
+			            {{Form::text('name','',['class'=>'col-md-6'])}} <span class="font-size:24px;">.{{$domain->name}}</span>
 			            {{error_for('name',$errors)}}
 			        </td>
 			        <td>
@@ -96,21 +116,25 @@ var parent_tr;
 						<div class="data-edit hide">
 							<input type="submit" class="btn btn-info btn-sm update-record" value="Lưu" />
 						</div>
-
+                        {{Form::close()}}
 					</td>
 					<td>
 						<div class="data-show">
-							<a href="#" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></a>
+
+							<a href="#" class="'btn btn-danger btn-sm delete-button" data-src="{{URL::route('customer.records.delete',$record->id)}}">Xóa</a>
+
 						</div>
 						<div class="data-edit hide">
+
 							<a class="btn btn-default btn-sm update-cancel">Hủy</a>
 						</div>
 					</td>
-					{{Form::close()}}
+
 				</tr>
 			    @endforeach
 			</tbody>
-		</table>       
+		</table>
+		</div>
 	</div>
 </div>
 

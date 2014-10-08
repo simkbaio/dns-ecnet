@@ -21,6 +21,10 @@ Route::group( [ 'before' => 'auth_customer' ], function () {
 		'as'   => 'customer_dashbroad',
 		'uses' => 'frontend\CustomerPagesController@dashbroad',
 	] );
+	Route::get( 'customer/domains', [
+		'as'   => 'customer.domains',
+		'uses' => 'frontend\CustomerPagesController@dashbroad',
+	] );
 
 	//Add new Domain
 	Route::get( 'customer/add-domain', [
@@ -38,11 +42,14 @@ Route::group( [ 'before' => 'auth_customer' ], function () {
 		'as'   => 'customer_delete_domain',
 		'uses' => '\frontend\CustomerPagesController@deleteDomain',
 	] );
-
 	//Show Domain
 	Route::resource('customer/domains','frontend\DomainsController');
 
 	Route::resource('customer/records','frontend\RecordsController');
+	Route::get('customer/records/delete/{id}',[
+		'as'=>'customer.records.delete',
+		'uses'=>'frontend\RecordsController@destroy',
+	]);
 
 
 
@@ -54,7 +61,8 @@ Route::post( 'ten-mien/dang-nhap', [ 'as' => 'domain_login', 'uses' => 'frontend
 
 
 Route::get( 'test', function () {
-	return Request::getClientIp();
+
+
 } );
 
 

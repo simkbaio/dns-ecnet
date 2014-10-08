@@ -24,39 +24,46 @@ class SessionController extends FrontendController {
 	}
 
 	public function customer_store() {
+		// Login credentials
+		$credentials = array(
+			'email'    => \Input::get( 'email' ),
+			'password' => \Input::get( 'password' ),
+		);
+
+		// Authenticate the user
+		( \Input::has( 'remember' ) ) ? $remember = true : $remember = false;
+
 		try {
-			// Login credentials
-			$credentials = array(
-				'email'    => \Input::get( 'email' ),
-				'password' => \Input::get( 'password' ),
-			);
 
-			// Authenticate the user
-			( \Input::has( 'remember' ) ) ? $remember = true: $remember = false;
+			$user = \Sentry::authenticate( $credentials, $remember );
 
-			$user = \Sentry::authenticate( $credentials,$remember );
-		} catch ( Cartalyst\Sentry\Users\LoginRequiredException $e ) {
-			echo 'Login field is required.';
-		} catch ( Cartalyst\Sentry\Users\PasswordRequiredException $e ) {
-			echo 'Password field is required.';
-		} catch ( Cartalyst\Sentry\Users\WrongPasswordException $e ) {
-			echo 'Wrong password, try again.';
-		} catch ( Cartalyst\Sentry\Users\UserNotFoundException $e ) {
-			echo 'User was not found.';
-		} catch ( Cartalyst\Sentry\Users\UserNotActivatedException $e ) {
-			echo 'User is not activated.';
+		} catch ( \Cartalyst\Sentry\Users\LoginRequiredException $e ) {
+			return \Redirect::back()->withFlashMessage('Login field is required.');
+		} catch ( \Cartalyst\Sentry\Users\PasswordRequiredException $e ) {
+			return \Redirect::back()->withFlashMessage('Password field is required.');
+		} catch ( \Cartalyst\Sentry\Users\WrongPasswordException $e ) {
+			return \Redirect::back()->withFlashMessage('Wrong password, try again.');
+		} catch ( \Cartalyst\Sentry\Users\UserNotFoundException $e ) {
+			return \Redirect::back()->withFlashMessage('User was not found.');
+		} catch ( \Cartalyst\Sentry\Users\UserNotActivatedException $e ) {
+			return \Redirect::back()->withFlashMessage('User is not activated.');
 		} // The following is only required if the throttling is enabled
-		catch ( Cartalyst\Sentry\Throttling\UserSuspendedException $e ) {
-			echo 'User is suspended.';
-		} catch ( Cartalyst\Sentry\Throttling\UserBannedException $e ) {
-			echo 'User is banned.';
+		catch ( \Cartalyst\Sentry\Throttling\UserSuspendedException $e ) {
+			return \Redirect::back()->withFlashMessage('User is suspended.');
+		} catch ( \Cartalyst\Sentry\Throttling\UserBannedException $e ) {
+			return \Redirect::back()->withFlashMessage('User is banned.');
+		}catch( \Cartalyst\Sentry\ Users\WrongPasswordException $e){
+			return \Redirect::back()->withFlashMessage('Sai mật khẩu.');
+
 		}
 
-		return \Redirect::route('customer_dashbroad');
+		return \Redirect::route( 'customer_dashbroad' );
 
 	}
-	public function customer_destroy(){
-	    \Sentry::logout();
-		return \Redirect::route('home');
+
+	public function customer_destroy() {
+		\Sentry::logout();
+
+		return \Redirect::route( 'home' );
 	}
 } 

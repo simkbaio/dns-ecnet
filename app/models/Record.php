@@ -7,5 +7,8 @@
  */
 
 class Record extends Eloquent {
+	protected $connection = 'powerdns';
+
+	public $timestamps = false;
 	protected $guarded = [];
 } 

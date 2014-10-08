@@ -68,6 +68,14 @@
 
     <div class="container" id="content">
 
+    @if(Session::has('flash_message'))
+      <div class="alert alert-danger">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          {{Session::get('flash_message')}}
+      </div>
+        
+    @endif
+
       {{Form::open(['route'=>'customer_login', 'class'=>"form-signin"])}}
         <h2 class="form-signin-heading" style="font-size: 25px; margin-bottom: 20px;">THÔNG TIN ĐĂNG NHẬP</h2>
         <input type="email" class="form-control" name="email" placeholder="Email address" required autofocus>

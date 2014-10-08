@@ -12,6 +12,7 @@ namespace frontend;
 class DomainsController extends FrontendController {
 
 	public function index(){
+		return \View::make('frontend.customer.pages.domains');
 
 	}
 
@@ -25,7 +26,6 @@ class DomainsController extends FrontendController {
 
 	}
 	public function store(){
-		return dd(\Input::all());
 
 
 	}

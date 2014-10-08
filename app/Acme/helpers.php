@@ -62,11 +62,13 @@ if ( ! function_exists( 'bootstrap_message' ) ) {
 
 		if ( ! Session::has( 'flash_message' ) ) {
 			return;
-		}
-		$message = Session::get( 'flash_message' );
-		echo '<div class="alert alert-' . $message['type'] . '">
+		}else {
+			$message = Session::get( 'flash_message' );
+
+			echo '<div class="alert alert-' . (isset($message['type'] )) ? $message['type'] : 'info' . '">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' .
-		     $message['content']. '
+			                                                                                     ( isset( $message['content'] ) ) ? $message['content'] : Session::get( 'flash_message' ) . '
             </div>';
+		}
 	}
 }
